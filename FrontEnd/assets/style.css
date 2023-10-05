@@ -139,6 +139,7 @@ header {
   justify-content: space-between;
   margin: 50px 0;
 }
+
 section {
   margin: 50px 0;
 }
@@ -174,9 +175,28 @@ nav li {
   font-size: 1.2em;
 }
 
+li img {
+  width: 19px;
+  height: 19px;
+}
+
 li:hover {
   color: #b1663c;
+  cursor: pointer;
 }
+
+a {
+  text-decoration: none;
+}
+
+a:visited {
+  color: transparent;
+}
+
+a:hover {
+  color: #b1663c;
+}
+
 #introduction {
   display: flex;
   align-items: center;
