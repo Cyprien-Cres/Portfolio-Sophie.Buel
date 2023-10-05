@@ -11,44 +11,7 @@
 		rel="stylesheet">
 	<meta name="description" content="">
 	<link rel="stylesheet" href="./assets/style.css">
-	<script>
-
-		fetch('http://localhost:5678/api/works', {
-			headers: {
-				Accept: 'application/json'
-			}
-		})
-			.then(r => {
-				if (r.ok) {
-					return r.json()
-				} else {
-					throw new Error('Erreur serveur', { cause: r })
-				}
-			})
-			.then(works => {
-				const gallery = document.querySelector(".gallery")
-				const figure = document.querySelector("figure")
-				const workCount = works.length
-				for (let i = 0; i < workCount; i++) {
-					const work = document.createElement("figure")
-					const image = document.createElement("img")
-					image.classList.add("work-image")
-					const figcaption = document.createElement("figcaption")
-					const workImage = document.querySelector("work-image")
-					gallery.appendChild(work)
-					work.appendChild(image)
-					work.appendChild(figcaption)
-					image.src = works[i].imageUrl
-					image.alt = works[i].title
-					image.crossOrigin = "anonymous"
-					figcaption.innerHTML = works[i].title
-				}
-			})
-			.catch(e => {
-				console.error('Une erreur est survenue', e)
-			})
-
-	</script>
+	<script src="./assets/script.js" type="module"></script>
 </head>
 
 <body>
@@ -80,6 +43,12 @@
 		</section>
 		<section id="portfolio">
 			<h2>Mes Projets</h2>
+			<div class="buttons">
+				<button>Tous</button>
+				<button>Objets</button>
+				<button>Appartements</button>
+				<button>Hôtel & restaurants</button>
+			</div>
 			<div class="gallery">
 			</div>
 		</section>
