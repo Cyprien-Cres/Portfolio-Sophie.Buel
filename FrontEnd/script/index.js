@@ -69,3 +69,16 @@ const init = async () => {
 }
 
 init()
+
+const loginLink = document.querySelector('.header-nav a')
+
+if (localStorage.getItem('token')) {
+  loginLink.textContent = 'logout'
+  const div = document.querySelector('#hidden')
+  const projectDiv = document.querySelector('#project-hidden')
+  div.id = ''
+  projectDiv.id = ''
+  console.log()
+} else {
+  loginLink.textContent = 'login'
+}
