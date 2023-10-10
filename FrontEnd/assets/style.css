@@ -133,9 +133,31 @@ body {
   font-size: 14px;
 }
 
+#hidden {
+  display: none;
+}
+
 .site {
   max-width: 1140px;
   margin: auto;
+}
+
+.edition {
+  max-width: 1440px;
+  margin: auto;
+  height: 59px;
+  margin-top: 0px;
+  color: white;
+  background-color: black;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: "Work Sans";
+  font-size: 16px;
+}
+
+.fa-regular {
+  padding-right: 13px;
 }
 
 header {
@@ -228,6 +250,26 @@ a:hover {
   text-align: center;
 }
 
+.projects-edition {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.projects-edition p {
+  cursor: pointer;
+}
+
+.projects-edition .fa-regular {
+  padding-right: 10px;
+  padding-left: 30px;
+  font-size: 14px;
+}
+
+#project-hidden {
+  display: none;
+}
+
 .categories {
   display: flex;
   justify-content: center;
@@ -309,6 +351,15 @@ input[type="submit"] {
   width: 180px;
   text-align: center;
   border-radius: 60px;
+  cursor: pointer;
+}
+
+#contact a {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: black;
+  text-decoration: underline;
 }
 
 footer nav ul {

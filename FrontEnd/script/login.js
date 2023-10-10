@@ -1,12 +1,11 @@
 const url = "http://localhost:5678/api/users/login"
-
-const form = document.querySelector('form');
+const form = document.querySelector('form')
 
 form.addEventListener('submit', (event) => {
   const emailEntered = document.querySelector('#email').value
   const passwordEntered = document.querySelector('#pass').value
 
-  event.preventDefault();
+  event.preventDefault()
 
   fetch(url, {
     method: "POST",
