@@ -129,16 +129,43 @@ table {
 }
 /** end reset css**/
 body {
-  max-width: 1140px;
-  margin: auto;
   font-family: "Work Sans";
   font-size: 14px;
 }
+
+#hidden {
+  display: none;
+}
+
+.site {
+  max-width: 1140px;
+  margin: auto;
+}
+
+.edition {
+  max-width: 1440px;
+  margin: auto;
+  height: 59px;
+  margin-top: 0px;
+  color: white;
+  background-color: black;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: "Work Sans";
+  font-size: 16px;
+}
+
+.fa-regular {
+  padding-right: 13px;
+}
+
 header {
   display: flex;
   justify-content: space-between;
   margin: 50px 0;
 }
+
 section {
   margin: 50px 0;
 }
@@ -174,9 +201,28 @@ nav li {
   font-size: 1.2em;
 }
 
+li img {
+  width: 19px;
+  height: 19px;
+}
+
 li:hover {
   color: #b1663c;
+  cursor: pointer;
 }
+
+a {
+  text-decoration: none;
+}
+
+a:visited {
+  color: transparent;
+}
+
+a:hover {
+  color: #b1663c;
+}
+
 #introduction {
   display: flex;
   align-items: center;
@@ -202,18 +248,26 @@ li:hover {
 }
 #portfolio h2 {
   text-align: center;
-  margin-bottom: 1em;
-}
-.gallery {
-  width: 100%;
-  display: grid;
-  grid-template-columns: 1fr 1fr 1fr;
-  grid-column-gap: 20px;
-  grid-row-gap: 20px;
 }
 
-.gallery img {
-  width: 100%;
+.projects-edition {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.projects-edition p {
+  cursor: pointer;
+}
+
+.projects-edition .fa-regular {
+  padding-right: 10px;
+  padding-left: 30px;
+  font-size: 14px;
+}
+
+#project-hidden {
+  display: none;
 }
 
 .categories {
@@ -243,6 +297,18 @@ li:hover {
 .categories .selected {
   background-color: #1d6154;
   color: #fff;
+}
+
+.gallery {
+  width: 100%;
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  grid-column-gap: 20px;
+  grid-row-gap: 20px;
+}
+
+.gallery img {
+  width: 100%;
 }
 
 #contact {
@@ -285,6 +351,15 @@ input[type="submit"] {
   width: 180px;
   text-align: center;
   border-radius: 60px;
+  cursor: pointer;
+}
+
+#contact a {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: black;
+  text-decoration: underline;
 }
 
 footer nav ul {
