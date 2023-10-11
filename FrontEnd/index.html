@@ -54,8 +54,51 @@
 			<section id="portfolio">
 				<div class="projects-edition">
 					<h2>Mes Projets</h2>
-					<div id="project-hidden">
-						<p><i class="fa-regular fa-pen-to-square"></i>modifier</p>
+					<div>
+						<button id="project-hidden" class="projects-button" onclick="openPopup()">
+							<i class="fa-regular fa-pen-to-square"></i>modifier</button>
+						<dialog id="modal">
+							<div class="popup">
+								<h3>Galerie photo</h3>
+								<div class="gallery-edition"></div>
+								<button class="closePopup" onclick="closePopup()">
+									<i class="fa-solid fa-xmark"></i>
+								</button>
+								<hr>
+								<div>
+									<button class="second-modal" onclick="openSecondPopup()">Ajouter une photo</button>
+									<dialog id="second-modal">
+										<div class="popup">
+											<button class="closeSecondPopup" onclick="closeSecondPopup()">
+												<i class="fa-solid fa-xmark"></i>
+											</button>
+											<button class="returnPopup" onclick="closeSecondPopup()">
+												<i class="fa-solid fa-arrow-left"></i>
+											</button>
+											<h3>Ajout photo</h3>
+											<div id="add-photo">
+												<i class="fa-regular fa-image"></i>
+												<button class="add-photo">+ Ajouter photo</button>
+												<p>jpg, png :4mo max</p>
+											</div>
+											<form action="#" method="post">
+												<label class="label-add" for="title">Titre</label>
+												<input type="text" name="title" id="title-modal">
+												<label class="label-add" for="title">Catégorie</label>
+												<select name="categorie" id="title-modal">
+													<option value="Objets">Objets</option>
+													<option value="Appartements">Appartements</option>
+													<option value="Hotels & restaurants">Hotels & restaurants</option>
+												</select>
+												<hr>
+												<button class="second-modal valid">Valider</button>
+											</form>
+										</div>
+									</dialog>
+								</div>
+							</div>
+							<script src="./script/components/modal.js"></script>
+						</dialog>
 					</div>
 				</div>
 				<div class="categories">
