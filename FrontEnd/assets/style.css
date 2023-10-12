@@ -131,6 +131,7 @@ table {
 body {
   font-family: "Work Sans";
   font-size: 14px;
+  background-color: #e5e5e5;
 }
 
 #hidden {
@@ -163,7 +164,8 @@ body {
 header {
   display: flex;
   justify-content: space-between;
-  margin: 50px 0;
+  margin: 0 0 50px 0;
+  padding-top: 50px;
 }
 
 section {
@@ -217,6 +219,16 @@ a:visited {
 
 a:hover {
   color: #b1663c;
+}
+
+.login-container {
+  max-width: 1140px;
+  margin: 0 auto;
+  height: 100%;
+}
+
+.bold {
+  font-weight: bold;
 }
 
 #introduction {
@@ -341,6 +353,10 @@ a:hover {
   box-shadow: 0px 4px 14px rgba(0, 0, 0, 0.09);
 }
 
+.contact-login {
+  padding-top: 150px;
+}
+
 input[type="submit"] {
   font-family: "Syne";
   font-weight: 700;
@@ -361,10 +377,20 @@ input[type="submit"] {
   text-decoration: underline;
 }
 
+footer {
+  max-width: 1440px;
+  padding-top: 250px;
+  margin: 0 auto;
+  height: 60px;
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+}
+
 footer nav ul {
   display: flex;
   justify-content: flex-end;
-  margin: 2em;
+  align-items: center;
 }
 
 #modal {
@@ -453,6 +479,7 @@ hr {
   right: 5px;
   font-size: 10px;
   border-radius: 2px;
+  cursor: pointer;
 }
 
 #second-modal {
