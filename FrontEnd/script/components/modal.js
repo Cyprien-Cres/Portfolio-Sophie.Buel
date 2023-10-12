@@ -65,6 +65,17 @@ const getWorks = async id => {
         image.alt = dataFiltered[i].title
         image.crossOrigin = "anonymous"
         paraph.innerHTML = '<i class="fa-solid fa-trash-can"></i>'
+         paraph.addEventListener('click', async () => {
+          const id = dataFiltered[i].id
+          const response = await fetch(`http://localhost:5678/api/works/${id}`, {
+            method: 'DELETE',
+          })
+          if (response.ok) {
+          await getWorks()
+          } else {
+            console.error('Une erreur est survenue lors de la suppression du work', response)
+          }
+        })
       }
     })
     .catch(e => {
