@@ -104,20 +104,20 @@
 								<h3>Ajout photo</h3>
 								<div id="add-photo">
 									<i class="fa-regular fa-image"></i>
-									<button class="add-photo">+ Ajouter photo</button>
+									<input type="file" id="my-file" />
 									<p>jpg, png :4mo max</p>
 								</div>
 								<form action="#" method="post">
 									<label class="label-add" for="title">Titre</label>
-									<input type="text" name="title" id="title-modal">
+									<input type="text" name="title" id="title-modal" class="input-modal">
 									<label class="label-add" for="title">Catégorie</label>
-									<select name="categorie" id="title-modal">
-										<option value="Objets">Objets</option>
-										<option value="Appartements">Appartements</option>
-										<option value="Hotels & restaurants">Hotels & restaurants</option>
+									<select name="categorie" id="select-modal" class="input-modal">
+										<option class="add-categorie" value="Objets">Objets</option>
+										<option class="add-categorie" value="Appartements">Appartements</option>
+										<option class="add-categorie" value="Hotels & restaurants">Hotels & restaurants</option>
 									</select>
 									<hr>
-									<button class="second-modal valid">Valider</button>
+									<button id="valid" class="second-modal">Valider</button>
 								</form>
 							</div>
 						</dialog>

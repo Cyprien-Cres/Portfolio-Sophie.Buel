@@ -526,7 +526,7 @@ hr {
   padding: 22px 0px 0px 0px;
 }
 
-#add-photo button {
+.button-add-photo {
   width: 173px;
   height: 36px;
   border-radius: 50px;
@@ -552,12 +552,13 @@ hr {
   padding-bottom: 10px;
 }
 
-#title-modal {
+.input-modal {
   width: 100%;
   height: 50px;
   font-size: 1.2em;
   border: none;
   box-shadow: 0px 4px 14px rgba(0, 0, 0, 0.09);
+  background-color: transparent;
 }
 
 #second-modal hr {
@@ -569,4 +570,10 @@ select {
   font-family: "Work Sans";
   font-size: 14px;
   color: #444444;
+}
+
+.photo-selected {
+  width: 129px;
+  height: 190px;
+  position: absolute;
 }

@@ -1,8 +1,12 @@
 import { removeAndSetNewClass } from "./components/dom.js"
 import Modal from "./components/modal.js"
-import { getWorks, getCategories } from "./components/api.js"
+import { getWorks, getCategories, } from "./components/api.js"
+import { Photo } from "./components/modal.js"
+import { AddWorks } from "./components/modal.js"
 
 Modal()
+Photo()
+AddWorks()
 
 const categories = document.querySelector('.categories')
 const gallery = document.querySelector('.gallery')
@@ -63,7 +67,6 @@ if (localStorage.getItem('token')) {
   const projectDiv = document.querySelector('#project-hidden')
   div.id = ''
   projectDiv.id = ''
-  console.log()
 } else {
   loginLink.textContent = 'login'
 }
@@ -73,6 +76,7 @@ loginLink.addEventListener('click', () => localStorage.clear())
 btnProjectHidden.addEventListener('click', async () => {
   modal.showModal()
   await getWorks().then(data => {
+    console.log(data)
     // Ajouter les images dans le premier popup
     const galleryEdition = document.querySelector(".gallery-edition")
     galleryEdition.innerHTML = ''
