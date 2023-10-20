@@ -1,8 +1,11 @@
+import Modal, { Photo, AddWorks } from "./components/modal.js"
 import { removeAndSetNewClass } from "./components/dom.js"
-import Modal from "./components/modal.js"
-import { getWorks, getCategories } from "./components/api.js"
+import { getWorks, getCategories, } from "./components/api.js"
+
 
 Modal()
+Photo()
+AddWorks()
 
 const categories = document.querySelector('.categories')
 const gallery = document.querySelector('.gallery')
@@ -61,9 +64,13 @@ if (localStorage.getItem('token')) {
   loginLink.textContent = 'logout'
   const div = document.querySelector('#hidden')
   const projectDiv = document.querySelector('#project-hidden')
+  const categories = document.querySelector('.categories')
+  const projectHidden = document.querySelector(".projects-edition")
   div.id = ''
   projectDiv.id = ''
-  console.log()
+  categories.classList.remove('categories')
+  categories.classList.add("hidden")
+  projectHidden.style.padding = "0 0 92px 0"
 } else {
   loginLink.textContent = 'login'
 }
@@ -93,12 +100,14 @@ btnProjectHidden.addEventListener('click', async () => {
       paraph.addEventListener('click', async () => {
         const token = localStorage.getItem('token')
         const id = data[i].id
+        work.remove()
         const response = await fetch(`http://localhost:5678/api/works/${id}`, {
           method: 'DELETE',
-          headers : {
+          headers: {
             Authorization: "Bearer " + token,
           }
         }).then((r) => r.json)
+        init()
       })
     }
   })
