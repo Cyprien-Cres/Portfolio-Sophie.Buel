@@ -1,71 +1,59 @@
+import Modal, { Photo, AddWorks } from "./components/modal.js"
 import { removeAndSetNewClass } from "./components/dom.js"
+import { getWorks, getCategories, } from "./components/api.js"
+
+
+Modal()
+Photo()
+AddWorks()
 
 const categories = document.querySelector('.categories')
 const gallery = document.querySelector('.gallery')
+const btnProjectHidden = document.getElementById('project-hidden')
 
-const getWorks = async id => {
-
+const createGallery = data => {
+  // on nettoie tout le container gallery
   gallery.innerHTML = ''
 
-  return fetch('http://localhost:5678/api/works', {
-    headers: {
-      Accept: 'application/json'
-    }
+  // parcourir le tableau des data pour afficher le contenu dans le dom
+  data.forEach(project => {
+    const figure = document.createElement('figure')
+    const image = document.createElement('img')
+    image.src = project.imageUrl
+    image.alt = project.title
+
+    const figCaption = document.createElement('figcaption')
+    figCaption.innerHTML = project.title
+
+    figure.appendChild(image)
+    figure.appendChild(figCaption)
+    gallery.appendChild(figure)
   })
-    .then(r => {
-      if (r.ok) {
-        return r.json()
-      } else {
-        throw new Error('Erreur serveur', { cause: r })
-      }
-    })
-    .then(works => {
-      const dataFiltered = id ? works.filter(work => work.categoryId === id) : works
-      const workCount = dataFiltered.length
-      for (let i = 0; i < workCount; i++) {
-        const work = document.createElement("figure")
-        const image = document.createElement("img")
-        image.classList.add("work-image")
-        const figcaption = document.createElement("figcaption")
-        gallery.appendChild(work)
-        work.appendChild(image)
-        work.appendChild(figcaption)
-        image.src = dataFiltered[i].imageUrl
-        image.alt = dataFiltered[i].title
-        image.crossOrigin = "anonymous"
-        figcaption.innerHTML = dataFiltered[i].title
-      }
-    })
-    .catch(e => {
-      console.error('Une erreur est survenue', e)
-    })
 }
 
-fetch('http://localhost:5678/api/categories')
-  .then(res => res.json())
-  .then(data => {
-
-    const all = document.getElementById('all')
-    all.addEventListener('click', async () => {
-      removeAndSetNewClass('.categories button', all, 'selected')
-      await getWorks()
-    })
-
-    data.forEach(category => {
-      const button = document.createElement('button')
-      button.innerHTML = category.name
-      categories.appendChild(button)
-
-
-      button.addEventListener('click', async () => {
-        removeAndSetNewClass('.categories button', button, 'selected')
-        await getWorks(category.id)
-      })
-    })
+const createCategories = data => {
+  const all = document.getElementById('all')
+  all.addEventListener('click', async () => {
+    removeAndSetNewClass('.categories button', all, 'selected')
+    await getWorks().then(data => createGallery(data))
   })
 
+  data.forEach(category => {
+    const button = document.createElement('button')
+    button.innerHTML = category.name
+    categories.appendChild(button)
+
+
+    button.addEventListener('click', async () => {
+      removeAndSetNewClass('.categories button', button, 'selected')
+      await getWorks(category.id).then(data => createGallery(data))
+    })
+  })
+}
+
 const init = async () => {
-  await getWorks()
+  await getWorks().then(data => createGallery(data))
+  await getCategories().then(data => createCategories(data))
 }
 
 init()
@@ -76,9 +64,51 @@ if (localStorage.getItem('token')) {
   loginLink.textContent = 'logout'
   const div = document.querySelector('#hidden')
   const projectDiv = document.querySelector('#project-hidden')
+  const categories = document.querySelector('.categories')
+  const projectHidden = document.querySelector(".projects-edition")
   div.id = ''
   projectDiv.id = ''
-  console.log()
+  categories.classList.remove('categories')
+  categories.classList.add("hidden")
+  projectHidden.style.padding = "0 0 92px 0"
 } else {
   loginLink.textContent = 'login'
 }
+
+loginLink.addEventListener('click', () => localStorage.clear())
+
+btnProjectHidden.addEventListener('click', async () => {
+  modal.showModal()
+  await getWorks().then(data => {
+    // Ajouter les images dans le premier popup
+    const galleryEdition = document.querySelector(".gallery-edition")
+    galleryEdition.innerHTML = ''
+    const workCount = data.length
+    for (let i = 0; i < workCount; i++) {
+      const work = document.createElement("figure")
+      const image = document.createElement("img")
+      const paraph = document.createElement("p")
+      image.classList.add("img-edition")
+      paraph.classList.add("delete")
+      galleryEdition.appendChild(work)
+      work.appendChild(image)
+      work.appendChild(paraph)
+      image.src = data[i].imageUrl
+      image.alt = data[i].title
+      image.crossOrigin = "anonymous"
+      paraph.innerHTML = '<i class="fa-solid fa-trash-can"></i>'
+      paraph.addEventListener('click', async () => {
+        const token = localStorage.getItem('token')
+        const id = data[i].id
+        work.remove()
+        const response = await fetch(`http://localhost:5678/api/works/${id}`, {
+          method: 'DELETE',
+          headers: {
+            Authorization: "Bearer " + token,
+          }
+        }).then((r) => r.json)
+        init()
+      })
+    }
+  })
+})

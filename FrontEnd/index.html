@@ -39,24 +39,32 @@
 				</figure>
 				<article>
 					<h2>Designer d'espace</h2>
-					<p>Je raconte votre histoire, je valorise vos idées. Je vous accompagne de la conception à la livraison
+					<p>Je raconte votre histoire, je valorise vos idées. Je vous accompagne de la conception à la
+						livraison
 						finale
 						du chantier.</p>
 					<p>Chaque projet sera étudié en commun, de façon à mettre en valeur les volumes, les matières et les
 						couleurs
-						dans le respect de l’esprit des lieux et le choix adapté des matériaux. Le suivi du chantier sera assuré
+						dans le respect de l’esprit des lieux et le choix adapté des matériaux. Le suivi du chantier
+						sera assuré
 						dans
 						le souci du détail, le respect du planning et du budget.</p>
-					<p>En cas de besoin, une équipe pluridisciplinaire peut-être constituée : architecte DPLG, décorateur(trice)
+					<p>En cas de besoin, une équipe pluridisciplinaire peut-être constituée : architecte DPLG,
+						décorateur(trice)
 					</p>
 				</article>
 			</section>
 			<section id="portfolio">
 				<div class="projects-edition">
-					<h2>Mes Projets</h2>
-					<div id="project-hidden">
-						<p><i class="fa-regular fa-pen-to-square"></i>modifier</p>
+					<h2 class="modif-padding">Mes Projets</h2>
+					<div>
+						<button id="project-hidden" class="projects-button">
+							<i class="fa-regular fa-pen-to-square"></i>modifier</button>
 					</div>
+				</div>
+				<script src="./script/components/modal.js"></script>
+				</dialog>
+				</div>
 				</div>
 				<div class="categories">
 					<button id="all" class="selected">Tous</button>
@@ -77,6 +85,50 @@
 					<input type="submit" value="Envoyer">
 				</form>
 			</section>
+
+			<dialog id="modal">
+				<div class="popup">
+					<h3>Galerie photo</h3>
+					<div class="gallery-edition"></div>
+					<button class="closePopup">
+						<i class="fa-solid fa-xmark"></i>
+					</button>
+					<hr>
+					<div>
+						<button class="second-modal btn-add-photo">Ajouter une photo</button>
+						<dialog id="second-modal">
+							<div class="popup">
+								<button class="closeSecondPopup">
+									<i class="fa-solid fa-xmark"></i>
+								</button>
+								<button class="returnPopup">
+									<i class="fa-solid fa-arrow-left"></i>
+								</button>
+								<form id="form-add-work" enctype="multipart/form-data">
+									<h3>Ajout photo</h3>
+									<div id="add-photo">
+										<i class="fa-regular fa-image"></i>
+										<input type="file" id="my-file" />
+										<p class="paraph-add">jpg, png :4mo max</p>
+									</div>
+
+									<label class="label-add" for="title">Titre</label>
+									<input type="text" name="title" id="title-modal" class="input-modal">
+									<label class="label-add" for="title">Catégorie</label>
+									<select name="categorie" id="select-modal" class="input-modal">
+										<option class="add-categorie" value="1">Objets</option>
+										<option class="add-categorie" value="2">Appartements</option>
+										<option class="add-categorie" value="3">Hotels & restaurants
+										</option>
+									</select>
+									<hr>
+									<button id="valid" class="second-modal">Valider</button>
+								</form>
+							</div>
+						</dialog>
+					</div>
+				</div>
+			</dialog>
 		</main>
 
 		<footer>
