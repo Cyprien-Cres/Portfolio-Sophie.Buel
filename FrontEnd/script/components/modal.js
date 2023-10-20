@@ -5,7 +5,8 @@ const closePopup = document.querySelector('.closePopup')
 const closeSecondPopup = document.querySelector('.closeSecondPopup')
 const returnPopup = document.querySelector('.returnPopup')
 const btnAddPhoto = document.querySelector('.btn-add-photo')
-const btnValid = document.getElementById('valid')
+const formAddWork = document.getElementById('form-add-work')
+const myFile = document.getElementById("my-file")
 
 const Modal = () => {
   closePopup.addEventListener('click', () => {
@@ -38,66 +39,73 @@ const Modal = () => {
 export default Modal
 
 export const Photo = () => {
-const myFile = document.getElementById("my-file")
-const button = document.createElement("button")
-button.classList.add("button-add-photo")
-button.type = "button"
-button.textContent = "+ Ajouter photo"
+  const button = document.createElement("button")
+  const type = myFile.type
+  const validTypes = ['image/png', 'image/jpg']
+  button.classList.add("button-add-photo")
+  button.type = "button"
+  button.textContent = "+ Ajouter photo"
 
-myFile.style.display = "none"
-myFile.parentNode.insertBefore(button, myFile)
+  myFile.style.display = "none"
+  myFile.parentNode.insertBefore(button, myFile)
+  
+  button.addEventListener("click", () => {
+    myFile.click()
+  })
 
-button.addEventListener("click", () => {
-  myFile.click()
-})
-
-myFile.addEventListener("change", () => {
-  const addPhoto = document.getElementById("add-photo") 
-  const image = document.createElement("img")
-  const button = document.querySelector(".button-add-photo")
-  const file = myFile.files[0]
-  const lien = URL.createObjectURL(file)
-  image.src = lien
-  image.classList.add("photo-selected")
-  button.style.display = "none"
-  addPhoto.appendChild(image)
-})
+  myFile.addEventListener("change", () => {
+    if (!validTypes.includes(myFile.files[0].type)) {
+      alert("Le type de fichier n'est pas valide.")
+      return
+    } else if (Math.round(myFile.files[0].size / 1024) > 4000) {
+      alert("Le fichier est trop volumineux.")
+      return
+    } else {
+      const addPhoto = document.getElementById("add-photo")
+      const image = document.createElement("img")
+      const button = document.querySelector(".button-add-photo")
+      const fa = document.querySelector(".fa-image")
+      const paraph = document.querySelector(".paraph-add")
+      const file = myFile.files[0]
+      const lien = URL.createObjectURL(file)
+      image.src = lien
+      image.classList.add("photo-selected")
+      button.style.display = "none"
+      fa.style.display = "none"
+      paraph.style.display = "none"
+      addPhoto.appendChild(image)
+      console.log('type:', type)
+      console.log('validTypes:', validTypes)
+    }
+  })
 }
+
 
 
 export const AddWorks = () => {
   const token = localStorage.getItem('token')
-  let inputTitle = document.getElementById('title-modal').value
-  let valueCategory = document.getElementById('select-modal').value
-  let addImage = document.getElementById("my-file").src
-  const inputCategory = () => {
-    if (valueCategory === "Objets") {
-      inputCategory = 1
-    } else if (valueCategory === "Appartements") {
-      inputCategory = 2
-    } else if (valueCategory === "Hotels & restaurants") {
-      inputCategory = 3
-    }
-  }
+  let inputTitle = document.getElementById('title-modal')
+  let valueCategory = document.getElementById('select-modal')
 
-  btnValid.addEventListener('click', async (event) => {
+  formAddWork.addEventListener('submit', async (event) => {
 
     event.preventDefault()
-    
+
+    const formData = new FormData()
+    const [file] = myFile.files
+    formData.append('image', file)
+    formData.append('title', inputTitle.value)
+    formData.append('category', parseInt(valueCategory.value))
+
     fetch("http://localhost:5678/api/works", {
-        method: "POST",
-        body: JSON.stringify({
-          title: inputTitle,
-          categoryId: inputCategory,
-          imageURL: addImage,
-        }),
-        headers: {
-          Authorization: "Bearer " + token,
-          "Content-Type" : "application/json"
-        }
-      }).then((response) => response.json())
-        .then((data) => {
-          console.log(data)
-        })
+      method: "POST",
+      body: formData,
+      headers: {
+        Authorization: "Bearer " + token
+      }
+    }).then((response) => response.json())
+      .then((data) => {
+        console.log(data)
+      })
   })
 }

@@ -1,8 +1,7 @@
+import Modal, { Photo, AddWorks } from "./components/modal.js"
 import { removeAndSetNewClass } from "./components/dom.js"
-import Modal from "./components/modal.js"
 import { getWorks, getCategories, } from "./components/api.js"
-import { Photo } from "./components/modal.js"
-import { AddWorks } from "./components/modal.js"
+
 
 Modal()
 Photo()
@@ -65,8 +64,13 @@ if (localStorage.getItem('token')) {
   loginLink.textContent = 'logout'
   const div = document.querySelector('#hidden')
   const projectDiv = document.querySelector('#project-hidden')
+  const categories = document.querySelector('.categories')
+  const projectHidden = document.querySelector(".projects-edition")
   div.id = ''
   projectDiv.id = ''
+  categories.classList.remove('categories')
+  categories.classList.add("hidden")
+  projectHidden.style.padding = "0 0 92px 0"
 } else {
   loginLink.textContent = 'login'
 }
@@ -76,7 +80,6 @@ loginLink.addEventListener('click', () => localStorage.clear())
 btnProjectHidden.addEventListener('click', async () => {
   modal.showModal()
   await getWorks().then(data => {
-    console.log(data)
     // Ajouter les images dans le premier popup
     const galleryEdition = document.querySelector(".gallery-edition")
     galleryEdition.innerHTML = ''
@@ -97,12 +100,14 @@ btnProjectHidden.addEventListener('click', async () => {
       paraph.addEventListener('click', async () => {
         const token = localStorage.getItem('token')
         const id = data[i].id
+        work.remove()
         const response = await fetch(`http://localhost:5678/api/works/${id}`, {
           method: 'DELETE',
-          headers : {
+          headers: {
             Authorization: "Bearer " + token,
           }
         }).then((r) => r.json)
+        init()
       })
     }
   })
