@@ -1,42 +1,8 @@
 // Ouvrir et fermer les popups
 const modal = document.getElementById("modal")
 const secondModal = document.getElementById('second-modal')
-const closePopup = document.querySelector('.closePopup')
-const closeSecondPopup = document.querySelector('.closeSecondPopup')
-const returnPopup = document.querySelector('.returnPopup')
-const btnAddPhoto = document.querySelector('.btn-add-photo')
 const formAddWork = document.getElementById('form-add-work')
 const myFile = document.getElementById("my-file")
-
-const Modal = () => {
-  closePopup.addEventListener('click', () => {
-    modal.close()
-    secondModal.close()
-  })
-  closeSecondPopup.addEventListener('click', () => {
-    secondModal.close()
-    modal.close()
-  })
-  returnPopup.addEventListener('click', () => secondModal.close())
-  btnAddPhoto.addEventListener('click', () => secondModal.showModal())
-
-
-  modal.addEventListener('click', (event) => {
-    if (event.target === modal) {
-      modal.close()
-      secondModal.close()
-    }
-  })
-
-  secondModal.addEventListener('click', (event) => {
-    if (event.target === secondModal) {
-      secondModal.close()
-      modal.close()
-    }
-  })
-}
-
-export default Modal
 
 export const Photo = () => {
   const button = document.createElement("button")
@@ -80,8 +46,6 @@ export const Photo = () => {
   })
 }
 
-
-
 export const AddWorks = () => {
   const token = localStorage.getItem('token')
   let inputTitle = document.getElementById('title-modal')
@@ -105,7 +69,32 @@ export const AddWorks = () => {
       }
     }).then((response) => response.json())
       .then((data) => {
-        console.log(data)
+        secondModal.close()
+        modal.showModal()
+        const galleryEdition = document.querySelector(".gallery-edition")
+        const work = document.createElement("figure")
+        const image = document.createElement("img")
+        const paraph = document.createElement("p")
+        image.classList.add("img-edition")
+        paraph.classList.add("delete")
+        galleryEdition.appendChild(work)
+        work.appendChild(image)
+        work.appendChild(paraph)
+        image.src = data.imageUrl
+        image.alt = data.title
+        image.crossOrigin = "anonymous"
+        paraph.innerHTML = '<i class="fa-solid fa-trash-can"></i>'
+        paraph.addEventListener('click', async () => {
+          const token = localStorage.getItem('token')
+          const id = data.id
+          work.remove()
+          const response = await fetch(`http://localhost:5678/api/works/${id}`, {
+            method: 'DELETE',
+            headers: {
+              Authorization: "Bearer " + token,
+            }
+          }).then((r) => r.json)
+        })
       })
   })
 }
