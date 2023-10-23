@@ -1,10 +1,6 @@
 // Ouvrir et fermer les popups
 const modal = document.getElementById("modal")
 const secondModal = document.getElementById('second-modal')
-const closePopup = document.querySelector('.closePopup')
-const closeSecondPopup = document.querySelector('.closeSecondPopup')
-const returnPopup = document.querySelector('.returnPopup')
-const btnAddPhoto = document.querySelector('.btn-add-photo')
 const formAddWork = document.getElementById('form-add-work')
 const myFile = document.getElementById("my-file")
 
