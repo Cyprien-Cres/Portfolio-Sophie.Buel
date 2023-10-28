@@ -1,6 +1,6 @@
 import { Photo, AddWorks } from "./components/modal.js"
 import { removeAndSetNewClass } from "./components/dom.js"
-import { getWorks, getCategories, } from "./components/api.js"
+import { getWorks, getCategories, deleteProject } from "./components/api.js"
 
 Photo()
 AddWorks()
@@ -14,10 +14,11 @@ const closePopup = document.querySelector('.closePopup')
 const closeSecondPopup = document.querySelector('.closeSecondPopup')
 const returnPopup = document.querySelector('.returnPopup')
 const btnAddPhoto = document.querySelector('.btn-add-photo')
+const galleryEdition = document.querySelector(".gallery-edition")
 
-const createGallery = data => {
+export const createGallery = (data, container = gallery, isModal = false) => {
   // on nettoie tout le container gallery
-  gallery.innerHTML = ''
+  container.innerHTML = ''
 
   // parcourir le tableau des data pour afficher le contenu dans le dom
   data.forEach(project => {
@@ -26,12 +27,26 @@ const createGallery = data => {
     image.src = project.imageUrl
     image.alt = project.title
 
-    const figCaption = document.createElement('figcaption')
-    figCaption.innerHTML = project.title
-
     figure.appendChild(image)
-    figure.appendChild(figCaption)
-    gallery.appendChild(figure)
+
+    if (!isModal) {
+      const figCaption = document.createElement('figcaption')
+      figCaption.innerHTML = project.title
+      figure.appendChild(figCaption)
+    } else {
+      image.classList.add("img-edition")
+      const paraph = document.createElement("p")
+      paraph.classList.add("delete")
+      paraph.innerHTML = '<i class="fa-solid fa-trash-can"></i>'
+      paraph.addEventListener('click', async () => {
+        await deleteProject(project.id)
+          .then(() => getWorks())
+          .then(data => createGallery(data, galleryEdition, true))
+      })
+      figure.appendChild(paraph)
+    }
+
+    container.appendChild(figure)
   })
 }
 
@@ -81,70 +96,32 @@ if (localStorage.getItem('token')) {
 
 loginLink.addEventListener('click', () => localStorage.clear())
 
-const Modal = () => {
-  closePopup.addEventListener('click', () => {
+
+closePopup.addEventListener('click', () => {
+  modal.close()
+  init()
+})
+closeSecondPopup.addEventListener('click', () => {
+  secondModal.close()
+})
+returnPopup.addEventListener('click', () => secondModal.close())
+btnAddPhoto.addEventListener('click', () => secondModal.showModal())
+
+
+modal.addEventListener('click', (event) => {
+  if (event.target === modal) {
     modal.close()
     init()
-  })
-  closeSecondPopup.addEventListener('click', () => {
+  }
+})
+
+secondModal.addEventListener('click', (event) => {
+  if (event.target === secondModal) {
     secondModal.close()
-  })
-  returnPopup.addEventListener('click', () => secondModal.close())
-  btnAddPhoto.addEventListener('click', () => secondModal.showModal())
+  }
+})
 
-
-  modal.addEventListener('click', (event) => {
-    if (event.target === modal) {
-      modal.close()
-      init()
-    }
-  })
-
-  secondModal.addEventListener('click', (event) => {
-    if (event.target === secondModal) {
-      secondModal.close()
-    }
-  })
-}
-
-Modal()
-
-const deleteWokrs = () => {
-  btnProjectHidden.addEventListener('click', async () => {
-    modal.showModal()
-    await getWorks().then(data => {
-      // Ajouter les images dans le premier popup
-      const galleryEdition = document.querySelector(".gallery-edition")
-      galleryEdition.innerHTML = ''
-      const workCount = data.length
-      for (let i = 0; i < workCount; i++) {
-        const work = document.createElement("figure")
-        const image = document.createElement("img")
-        const paraph = document.createElement("p")
-        image.classList.add("img-edition")
-        paraph.classList.add("delete")
-        galleryEdition.appendChild(work)
-        work.appendChild(image)
-        work.appendChild(paraph)
-        image.src = data[i].imageUrl
-        image.alt = data[i].title
-        image.crossOrigin = "anonymous"
-        paraph.innerHTML = '<i class="fa-solid fa-trash-can"></i>'
-        paraph.addEventListener('click', async () => {
-          const token = localStorage.getItem('token')
-          const id = data[i].id
-          work.remove()
-          const response = await fetch(`http://localhost:5678/api/works/${id}`, {
-            method: 'DELETE',
-            headers: {
-              Authorization: "Bearer " + token,
-            }
-          }).then((r) => r.json)
-          init()
-        })
-      }
-    })
-  })
-}
-
-deleteWokrs()
+btnProjectHidden.addEventListener('click', async () => {
+  modal.showModal()
+  await getWorks().then(data => createGallery(data, galleryEdition, true))
+})

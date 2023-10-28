@@ -1,4 +1,4 @@
-const url = "http://localhost:5678/api/users/login"
+import { postLogin } from "./components/api.js"
 const form = document.querySelector('form')
 
 form.addEventListener('submit', (event) => {
@@ -7,16 +7,7 @@ form.addEventListener('submit', (event) => {
 
   event.preventDefault()
 
-  fetch(url, {
-    method: "POST",
-    body: JSON.stringify({
-      email: emailEntered,
-      password: passwordEntered,
-    }),
-    headers: {
-      "Content-Type" : "application/json"
-    }
-  }).then((response) => response.json())
+  postLogin({ email: emailEntered, password: passwordEntered })
     .then((data) => {
       const userId = data.userId
       if (userId === 1) {
@@ -26,5 +17,5 @@ form.addEventListener('submit', (event) => {
       } else {
         alert("Erreur dans l’identifiant ou le mot de passe")
       }
-  })
+    })
 })
