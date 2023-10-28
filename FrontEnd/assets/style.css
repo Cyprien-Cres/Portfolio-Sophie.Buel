@@ -325,6 +325,7 @@ a:hover {
 
 .gallery img {
   width: 100%;
+  object-fit: cover;
 }
 
 #contact {
@@ -428,6 +429,7 @@ footer nav ul {
 .img-edition {
   height: 103px;
   width: 100%;
+  object-fit: cover;
 }
 
 .closePopup {
