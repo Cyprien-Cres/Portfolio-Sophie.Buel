@@ -1,4 +1,4 @@
-import { Photo, AddWorks } from "./components/modal.js"
+import { Photo, AddWorks, resetForm } from "./components/modal.js"
 import { removeAndSetNewClass } from "./components/dom.js"
 import { getWorks, getCategories, deleteProject } from "./components/api.js"
 
@@ -103,8 +103,12 @@ closePopup.addEventListener('click', () => {
 })
 closeSecondPopup.addEventListener('click', () => {
   secondModal.close()
+  resetForm()
 })
-returnPopup.addEventListener('click', () => secondModal.close())
+returnPopup.addEventListener('click', () => {
+  secondModal.close()
+  resetForm()
+})
 btnAddPhoto.addEventListener('click', () => secondModal.showModal())
 
 
@@ -118,6 +122,7 @@ modal.addEventListener('click', (event) => {
 secondModal.addEventListener('click', (event) => {
   if (event.target === secondModal) {
     secondModal.close()
+    resetForm()
   }
 })
 

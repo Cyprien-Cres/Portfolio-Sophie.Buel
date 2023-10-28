@@ -50,6 +50,19 @@ export const Photo = () => {
   })
 }
 
+export const resetForm = () => {
+  secondModal.close()
+  const image = document.querySelector(".photo-selected")
+  const button = document.querySelector(".button-add-photo")
+  const fa = document.querySelector(".fa-image")
+  const paraph = document.querySelector(".paraph-add")
+  formAddWork.reset()
+  image.remove()
+  button.style.display = "block"
+  fa.style.display = "block"
+  paraph.style.display = "block"
+}
+
 export const AddWorks = () => {
   const token = localStorage.getItem('token')
   let inputTitle = document.getElementById('title-modal')
@@ -73,7 +86,7 @@ export const AddWorks = () => {
       }
     }).then((response) => response.json())
       .then(() => {
-        secondModal.close()
+        resetForm()
         modal.close()
         return getWorks()
       })
