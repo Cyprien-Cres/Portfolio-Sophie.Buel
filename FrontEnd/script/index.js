@@ -1,4 +1,4 @@
-import { Photo, AddWorks, resetForm } from "./components/modal.js"
+import { Photo, AddWorks, resetForm, verificationForm } from "./components/modal.js"
 import { removeAndSetNewClass } from "./components/dom.js"
 import { getWorks, getCategories, deleteProject } from "./components/api.js"
 
@@ -109,7 +109,10 @@ returnPopup.addEventListener('click', () => {
   secondModal.close()
   resetForm()
 })
-btnAddPhoto.addEventListener('click', () => secondModal.showModal())
+btnAddPhoto.addEventListener('click', () => {
+  secondModal.showModal()
+  verificationForm()
+})
 
 
 modal.addEventListener('click', (event) => {
