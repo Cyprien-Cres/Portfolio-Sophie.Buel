@@ -1,3 +1,6 @@
+import { createGallery } from "../index.js"
+import { getWorks } from "./api.js"
+
 // Ouvrir et fermer les popups
 const modal = document.getElementById("modal")
 const secondModal = document.getElementById('second-modal')
@@ -7,20 +10,21 @@ const myFile = document.getElementById("my-file")
 export const Photo = () => {
   const button = document.createElement("button")
   const type = myFile.type
-  const validTypes = ['image/png', 'image/jpg']
+  const validTypes = ['image/png', 'image/jpg', 'image/jpeg']
   button.classList.add("button-add-photo")
   button.type = "button"
   button.textContent = "+ Ajouter photo"
 
   myFile.style.display = "none"
   myFile.parentNode.insertBefore(button, myFile)
-  
+
   button.addEventListener("click", () => {
     myFile.click()
   })
 
   myFile.addEventListener("change", () => {
     if (!validTypes.includes(myFile.files[0].type)) {
+      console.log(myFile.files[0].type)
       alert("Le type de fichier n'est pas valide.")
       return
     } else if (Math.round(myFile.files[0].size / 1024) > 4000) {
@@ -68,33 +72,48 @@ export const AddWorks = () => {
         Authorization: "Bearer " + token
       }
     }).then((response) => response.json())
-      .then((data) => {
-        secondModal.close()
-        modal.showModal()
-        const galleryEdition = document.querySelector(".gallery-edition")
-        const work = document.createElement("figure")
-        const image = document.createElement("img")
-        const paraph = document.createElement("p")
-        image.classList.add("img-edition")
-        paraph.classList.add("delete")
-        galleryEdition.appendChild(work)
-        work.appendChild(image)
-        work.appendChild(paraph)
-        image.src = data.imageUrl
-        image.alt = data.title
-        image.crossOrigin = "anonymous"
-        paraph.innerHTML = '<i class="fa-solid fa-trash-can"></i>'
-        paraph.addEventListener('click', async () => {
-          const token = localStorage.getItem('token')
-          const id = data.id
-          work.remove()
-          const response = await fetch(`http://localhost:5678/api/works/${id}`, {
-            method: 'DELETE',
-            headers: {
-              Authorization: "Bearer " + token,
-            }
-          }).then((r) => r.json)
-        })
+      .then(() => {
+        resetForm()
+        modal.close()
+        return getWorks()
       })
+      .then(data => createGallery(data))
   })
 }
+
+export const verificationForm = () => {
+  const myFile = document.getElementById("my-file")
+  const titleModal = document.getElementById("title-modal")
+  const selectModal = document.getElementById("select-modal")
+  const buttonSubmit = document.getElementById("valid")
+  
+  function validation() {
+    if (myFile.value !== "" && titleModal.value !== "" && selectModal.value !== "0"){
+      buttonSubmit.disabled = false
+      buttonSubmit.style.backgroundColor = "#1d6154"
+    } else {
+      buttonSubmit.disabled = true 
+      buttonSubmit.style.backgroundColor = "#A7A7A7"
+    }
+  }
+  
+  myFile.addEventListener("change", validation)
+  titleModal.addEventListener("change", validation)
+  selectModal.addEventListener("change", validation)
+  
+  validation()
+}
+
+export const resetForm = () => {
+  secondModal.close()
+  const image = document.querySelector(".photo-selected")
+  const button = document.querySelector(".button-add-photo")
+  const fa = document.querySelector(".fa-image")
+  const paraph = document.querySelector(".paraph-add")
+  formAddWork.reset()
+  image.remove()
+  button.style.display = "block"
+  fa.style.display = "block"
+  paraph.style.display = "block"
+}
+

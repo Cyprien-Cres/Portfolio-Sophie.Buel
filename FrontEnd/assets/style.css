@@ -325,6 +325,7 @@ a:hover {
 
 .gallery img {
   width: 100%;
+  object-fit: cover;
 }
 
 #contact {
@@ -428,6 +429,7 @@ footer nav ul {
 .img-edition {
   height: 103px;
   width: 100%;
+  object-fit: cover;
 }
 
 .closePopup {
@@ -500,6 +502,7 @@ hr {
   left: 30px;
   background-color: transparent;
   border: none;
+  cursor: pointer;
 }
 
 .fa-arrow-left {
