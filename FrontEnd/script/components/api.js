@@ -28,3 +28,11 @@ export const deleteProject = async id => await fetch(`http://localhost:5678/api/
         Authorization: "Bearer " + localStorage.token,
     }
 })
+
+export const postWork = data => fetch(WORKS_URL, {
+    method: "POST",
+    body: data,
+    headers: {
+        Authorization: "Bearer " + localStorage.token
+    }
+}).then((response) => response.json())
