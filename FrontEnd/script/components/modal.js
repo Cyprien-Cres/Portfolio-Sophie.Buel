@@ -1,5 +1,5 @@
 import { createGallery } from "../index.js"
-import { getWorks } from "./api.js"
+import { getWorks, postWork } from "./api.js"
 
 // Ouvrir et fermer les popups
 const modal = document.getElementById("modal")
@@ -65,13 +65,7 @@ export const AddWorks = () => {
     formData.append('title', inputTitle.value)
     formData.append('category', parseInt(valueCategory.value))
 
-    fetch("http://localhost:5678/api/works", {
-      method: "POST",
-      body: formData,
-      headers: {
-        Authorization: "Bearer " + token
-      }
-    }).then((response) => response.json())
+    postWork(formData)
       .then(() => {
         resetForm()
         modal.close()
@@ -86,21 +80,21 @@ export const verificationForm = () => {
   const titleModal = document.getElementById("title-modal")
   const selectModal = document.getElementById("select-modal")
   const buttonSubmit = document.getElementById("valid")
-  
+
   function validation() {
-    if (myFile.value !== "" && titleModal.value !== "" && selectModal.value !== "0"){
+    if (myFile.value !== "" && titleModal.value !== "" && selectModal.value !== "0") {
       buttonSubmit.disabled = false
       buttonSubmit.style.backgroundColor = "#1d6154"
     } else {
-      buttonSubmit.disabled = true 
+      buttonSubmit.disabled = true
       buttonSubmit.style.backgroundColor = "#A7A7A7"
     }
   }
-  
+
   myFile.addEventListener("change", validation)
   titleModal.addEventListener("change", validation)
   selectModal.addEventListener("change", validation)
-  
+
   validation()
 }
 
@@ -116,4 +110,3 @@ export const resetForm = () => {
   fa.style.display = "block"
   paraph.style.display = "block"
 }
-
