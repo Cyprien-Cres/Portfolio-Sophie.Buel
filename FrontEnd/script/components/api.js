@@ -10,7 +10,7 @@ const post = async (url, data) => fetch(url, {
     headers: {
         "Content-Type": "application/json"
     }
-}).then(res => res.json()).then(data => data).catch(error => error)
+})
 
 
 export const getWorks = async categoryId => await get(WORKS_URL).then(data => {
@@ -21,6 +21,15 @@ export const getWorks = async categoryId => await get(WORKS_URL).then(data => {
 export const getCategories = async () => await get(CATEGORIES_URL)
 
 export const postLogin = async data => await post(LOGIN_URL, data)
+    .then(res => {
+        if (res.status === 401 || res.status === 404) {
+            alert('Erreur dans l’identifiant ou le mot de passe')
+        }
+        return res.json()
+    }).catch(error => {
+        alert('API indisponible')
+        throw error
+    })
 
 export const deleteProject = async id => await fetch(`http://localhost:5678/api/works/${id}`, {
     method: 'DELETE',

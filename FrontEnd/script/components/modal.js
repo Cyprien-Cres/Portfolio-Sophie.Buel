@@ -51,7 +51,6 @@ export const Photo = () => {
 }
 
 export const AddWorks = () => {
-  const token = localStorage.getItem('token')
   let inputTitle = document.getElementById('title-modal')
   let valueCategory = document.getElementById('select-modal')
 
