@@ -8,9 +8,8 @@ form.addEventListener('submit', (event) => {
   event.preventDefault()
 
   postLogin({ email: emailEntered, password: passwordEntered })
-    .then((data) => {
-      const userId = data.userId
-      if (userId === 1) {
+    .then((data) => {   
+      if (data.userId) {
         localStorage.setItem("token", data.token)
         const token = localStorage.getItem("token")
         window.location = "../index.html"

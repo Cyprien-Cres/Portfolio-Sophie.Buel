@@ -50,22 +50,30 @@ export const createGallery = (data, container = gallery, isModal = false) => {
   })
 }
 
+let categoryData = {}
+const loadCategory = async (categoryId) => {
+  if (!categoryData[categoryId]) {
+    categoryData[categoryId] = await getWorks(categoryId)
+  }
+  createGallery(categoryData[categoryId])
+}
+
 const createCategories = data => {
   const all = document.getElementById('all')
-  all.addEventListener('click', async () => {
-    removeAndSetNewClass('.categories button', all, 'selected')
-    await getWorks().then(data => createGallery(data))
+
+  all.addEventListener('click', () => {
+    removeAndSetNewClass('.categories button', all, 'selected');
+    loadCategory()
   })
 
   data.forEach(category => {
-    const button = document.createElement('button')
+    const button = document.createElement('button');
     button.innerHTML = category.name
     categories.appendChild(button)
 
-
-    button.addEventListener('click', async () => {
+    button.addEventListener('click', () => {
       removeAndSetNewClass('.categories button', button, 'selected')
-      await getWorks(category.id).then(data => createGallery(data))
+      loadCategory(category.id)
     })
   })
 }
