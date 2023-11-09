@@ -8,13 +8,10 @@ form.addEventListener('submit', (event) => {
   event.preventDefault()
 
   postLogin({ email: emailEntered, password: passwordEntered })
-    .then((data) => {   
-      if (data.userId) {
+    .then((data) => {
+      if (data.token) {
         localStorage.setItem("token", data.token)
-        const token = localStorage.getItem("token")
         window.location = "../index.html"
-      } else {
-        alert("Erreur dans l’identifiant ou le mot de passe")
       }
     })
 })

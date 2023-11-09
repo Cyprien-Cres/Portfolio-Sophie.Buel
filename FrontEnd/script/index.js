@@ -1,4 +1,4 @@
-import { Photo, AddWorks, resetForm, verificationForm } from "./components/modal.js"
+import { Photo, AddWorks, resetForm, verificationForm, createSelectCategory } from "./components/modal.js"
 import { removeAndSetNewClass } from "./components/dom.js"
 import { getWorks, getCategories, deleteProject } from "./components/api.js"
 
@@ -50,37 +50,34 @@ export const createGallery = (data, container = gallery, isModal = false) => {
   })
 }
 
-let categoryData = {}
-const loadCategory = async (categoryId) => {
-  if (!categoryData[categoryId]) {
-    categoryData[categoryId] = await getWorks(categoryId)
-  }
-  createGallery(categoryData[categoryId])
-}
-
 const createCategories = data => {
   const all = document.getElementById('all')
-
-  all.addEventListener('click', () => {
-    removeAndSetNewClass('.categories button', all, 'selected');
-    loadCategory()
+  all.addEventListener('click', async () => {
+    removeAndSetNewClass('.categories button', all, 'selected')
+    await getWorks().then(data => createGallery(data))
   })
 
   data.forEach(category => {
-    const button = document.createElement('button');
+    const button = document.createElement('button')
     button.innerHTML = category.name
     categories.appendChild(button)
 
-    button.addEventListener('click', () => {
+
+    button.addEventListener('click', async () => {
       removeAndSetNewClass('.categories button', button, 'selected')
-      loadCategory(category.id)
+      await getWorks(category.id).then(data => createGallery(data))
     })
   })
 }
 
+
+
 const init = async () => {
   await getWorks().then(data => createGallery(data))
-  await getCategories().then(data => createCategories(data))
+  await getCategories().then(data => {
+    createCategories(data)
+    createSelectCategory(data)
+  })
 }
 
 init()
