@@ -1,4 +1,4 @@
-import { Photo, AddWorks, resetForm, verificationForm } from "./components/modal.js"
+import { Photo, AddWorks, resetForm, verificationForm, createSelectCategory } from "./components/modal.js"
 import { removeAndSetNewClass } from "./components/dom.js"
 import { getWorks, getCategories, deleteProject } from "./components/api.js"
 
@@ -70,9 +70,14 @@ const createCategories = data => {
   })
 }
 
+
+
 const init = async () => {
   await getWorks().then(data => createGallery(data))
-  await getCategories().then(data => createCategories(data))
+  await getCategories().then(data => {
+    createCategories(data)
+    createSelectCategory(data)
+  })
 }
 
 init()

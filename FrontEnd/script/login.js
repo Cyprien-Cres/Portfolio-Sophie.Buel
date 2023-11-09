@@ -9,13 +9,9 @@ form.addEventListener('submit', (event) => {
 
   postLogin({ email: emailEntered, password: passwordEntered })
     .then((data) => {
-      const userId = data.userId
-      if (userId === 1) {
+      if (data.token) {
         localStorage.setItem("token", data.token)
-        const token = localStorage.getItem("token")
         window.location = "../index.html"
-      } else {
-        alert("Erreur dans l’identifiant ou le mot de passe")
       }
     })
 })
